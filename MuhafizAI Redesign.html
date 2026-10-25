@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MuhafizAI - Check a message before you trust it</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F2F6F5;--surface:#FFFFFF;--ink:#10231F;--muted:#506560;--line:#D6E0DD;--brand:#0C6B54;--brand-ink:#FFFFFF;--brand-soft:#DDF0EA;--danger:#B42318;--danger-soft:#FDE8E6;--warn:#9A5B00;--warn-soft:#FDF0D5;--ok:#157347;--ok-soft:#DFF3E6;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1A18;--surface:#152623;--ink:#E7F1EE;--muted:#9DB5AF;--line:#26403B;--brand:#3DBB97;--brand-ink:#06251D;--brand-soft:#163A31;--danger:#FF8A7E;--danger-soft:#3A1B18;--warn:#F2B661;--warn-soft:#37290F;--ok:#6FD39A;--ok-soft:#14301F;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1A18;--surface:#152623;--ink:#E7F1EE;--muted:#9DB5AF;--line:#26403B;--brand:#3DBB97;--brand-ink:#06251D;--brand-soft:#163A31;--danger:#FF8A7E;--danger-soft:#3A1B18;--warn:#F2B661;--warn-soft:#37290F;--ok:#6FD39A;--ok-soft:#14301F;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Figtree,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.55}
+body.ur{font-family:"Noto Nastaliq Urdu",Figtree,serif;line-height:2}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 0;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:42px;height:42px;border-radius:12px;background:var(--brand);color:var(--brand-ink);display:grid;place-items:center}
+.brand b{font-size:20px;letter-spacing:-.01em;display:block;line-height:1.2}
+.brand span{font-size:13px;color:var(--muted)}
+.seg{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:3px}
+.seg button{border:0;background:transparent;color:var(--muted);font:inherit;font-size:14px;font-weight:600;padding:7px 14px;border-radius:9px;cursor:pointer}
+.seg button[aria-pressed="true"],.seg button[aria-selected="true"]{background:var(--brand);color:var(--brand-ink)}
+button:focus-visible,textarea:focus-visible,a:focus-visible,label:focus-within{outline:3px solid var(--brand);outline-offset:2px}
+.hero{padding:34px 0 22px;max-width:760px}
+h1{font-size:clamp(30px,5vw,48px);line-height:1.12;letter-spacing:-.025em;margin:0 0 14px;font-weight:800}
+body.ur h1{line-height:1.5}
+.lead{font-size:18px;color:var(--muted);margin:0;max-width:62ch}
+.grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:22px;align-items:start;padding-bottom:36px}
+@media (max-width:860px){.grid{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px}
+.tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.tabs button{flex:1;min-width:110px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-weight:600;font-size:15px;padding:11px 12px;border-radius:12px;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--brand-soft);border-color:var(--brand);color:var(--brand)}
+textarea{width:100%;min-height:170px;resize:vertical;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:14px;padding:14px;font:inherit;font-size:17px;line-height:1.6}
+.drop{display:grid;place-items:center;text-align:center;gap:6px;min-height:170px;border:2px dashed var(--line);border-radius:14px;padding:20px;color:var(--muted);cursor:pointer;background:var(--bg)}
+.drop input{position:absolute;opacity:0;width:1px;height:1px}
+.drop strong{color:var(--ink);font-size:17px}
+.actions{display:flex;gap:10px;margin-top:14px;align-items:center;flex-wrap:wrap}
+.primary{border:0;background:var(--brand);color:var(--brand-ink);font:inherit;font-weight:700;font-size:17px;padding:13px 26px;border-radius:12px;cursor:pointer}
+.ghost{border:0;background:transparent;color:var(--muted);font:inherit;font-weight:600;padding:12px 8px;cursor:pointer}
+h2{font-size:15px;margin:22px 0 10px;color:var(--muted);font-weight:600}
+.samples{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (max-width:520px){.samples{grid-template-columns:1fr}}
+.sample{text-align:start;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:14px;padding:12px 14px;font:inherit;cursor:pointer}
+.sample:hover{border-color:var(--brand)}
+.sample b{display:block;font-size:15px}
+.sample small{display:block;color:var(--muted);font-size:13px;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.result{position:sticky;top:12px}
+.empty{text-align:center;padding:34px 10px;color:var(--muted)}
+.empty b{display:block;color:var(--ink);font-size:19px;margin-bottom:6px}
+.verdict{display:flex;gap:18px;align-items:center}
+.gauge{position:relative;width:112px;height:112px;flex:none}
+.gauge svg{width:112px;height:112px;transform:rotate(-90deg)}
+.gauge circle{fill:none;stroke-width:11;stroke-linecap:round}
+.gauge .track{stroke:var(--line)}
+.gauge .fill{transition:stroke-dashoffset .8s ease}
+.gauge div{position:absolute;inset:0;display:grid;place-items:center;font-size:28px;font-weight:800}
+.badge{display:inline-block;font-weight:700;font-size:14px;padding:4px 12px;border-radius:99px}
+.high{--c:var(--danger);--cs:var(--danger-soft)}.mid{--c:var(--warn);--cs:var(--warn-soft)}.low{--c:var(--ok);--cs:var(--ok-soft)}
+.badge{color:var(--c);background:var(--cs)}
+.fill{stroke:var(--c)}
+.verdict h3{margin:8px 0 2px;font-size:22px;line-height:1.25}
+.verdict p{margin:0;color:var(--muted);font-size:15px}
+.msg{margin:18px 0 0;padding:14px;border-radius:14px;background:var(--bg);font-size:16px;line-height:1.8;white-space:pre-wrap;word-break:break-word}
+mark{background:var(--cs);color:var(--c);border-radius:5px;padding:1px 4px;font-weight:600}
+.flags{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.flags li{border:1px solid var(--line);border-radius:12px;padding:11px 13px}
+.flags b{display:block;font-size:15px}
+.flags span{color:var(--muted);font-size:14px}
+.next{margin-top:16px;padding:14px;border-radius:14px;background:var(--cs);color:var(--ink);font-size:15px}
+.next b{color:var(--c)}
+.how{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;padding:10px 0 40px}
+@media (max-width:760px){.how{grid-template-columns:1fr}}
+.how h4{margin:0 0 4px;font-size:17px}.how p{margin:0;color:var(--muted);font-size:15px}
+footer{border-top:1px solid var(--line);padding:22px 0 30px;color:var(--muted);font-size:14px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="brand">
+    <div class="logo" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.2 7.6-8 9-4.8-1.4-8-4.5-8-9V6l8-3z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg></div>
+    <div><b>MuhafizAI</b><span data-t="tag">Scam message checker</span></div>
+  </div>
+  <div class="seg" role="group" aria-label="Language">
+    <button data-lang="en" aria-pressed="true">English</button>
+    <button data-lang="rn" aria-pressed="false">Roman Urdu</button>
+    <button data-lang="ur" aria-pressed="false">اردو</button>
+  </div>
+</header>
+
+<section class="hero">
+  <h1 data-t="h1">Got a strange message about money? Check it here first.</h1>
+  <p class="lead" data-t="lead">Paste an SMS or WhatsApp message, upload a voice note, or add a screenshot. We tell you if it looks like a scam and what to do next.</p>
+</section>
+
+<main class="grid">
+  <section class="card" aria-label="Checker">
+    <div class="tabs" role="tablist">
+      <button role="tab" data-tab="text" aria-selected="true" data-t="tText">Message text</button>
+      <button role="tab" data-tab="voice" aria-selected="false" data-t="tVoice">Voice note</button>
+      <button role="tab" data-tab="shot" aria-selected="false" data-t="tShot">Screenshot</button>
+    </div>
+    <div id="pText"><textarea id="input" data-ph="ph" placeholder="Paste the message here"></textarea></div>
+    <div id="pVoice" hidden><label class="drop"><input type="file" accept="audio/*" data-file><strong data-t="dVoice">Choose a voice note</strong><span data-t="dHint">Tap to select a file from your phone or computer</span><span id="fnVoice"></span></label></div>
+    <div id="pShot" hidden><label class="drop"><input type="file" accept="image/*" data-file><strong data-t="dShot">Choose a screenshot</strong><span data-t="dHint">Tap to select a file from your phone or computer</span><span id="fnShot"></span></label></div>
+    <div class="actions">
+      <button class="primary" id="check" data-t="check">Check message</button>
+      <button class="ghost" id="clear" data-t="clear">Clear</button>
+    </div>
+    <h2 data-t="try">Or try an example</h2>
+    <div class="samples" id="samples"></div>
+  </section>
+
+  <section class="card result" aria-live="polite" id="result"></section>
+</main>
+
+<section class="how">
+  <div><h4 data-t="h1a">Understands how people write</h4><p data-t="p1a">Reads English and Roman Urdu, including mixed messages.</p></div>
+  <div><h4 data-t="h2a">Shows what looks wrong</h4><p data-t="p2a">Highlights the exact words that raise concern, with a plain reason.</p></div>
+  <div><h4 data-t="h3a">Tells you what to do</h4><p data-t="p3a">Clear next steps, including who to report to in Pakistan.</p></div>
+</section>
+<footer>
+  <span data-t="foot">MuhafizAI gives guidance, not a guarantee. When in doubt, call your bank on its official number.</span>
+  <span>FIA Cyber Crime: 1991</span>
+</footer>
+</div>
+
+<script>
+const T={
+en:{tag:"Scam message checker",h1:"Got a strange message about money? Check it here first.",lead:"Paste an SMS or WhatsApp message, upload a voice note, or add a screenshot. We tell you if it looks like a scam and what to do next.",tText:"Message text",tVoice:"Voice note",tShot:"Screenshot",ph:"Paste the message here",dVoice:"Choose a voice note",dShot:"Choose a screenshot",dHint:"Tap to select a file from your phone or computer",check:"Check message",clear:"Clear",try:"Or try an example",h1a:"Understands how people write",p1a:"Reads English and Roman Urdu, including mixed messages.",h2a:"Shows what looks wrong",p2a:"Highlights the exact words that raise concern, with a plain reason.",h3a:"Tells you what to do",p3a:"Clear next steps, including who to report to in Pakistan.",foot:"MuhafizAI gives guidance, not a guarantee. When in doubt, call your bank on its official number.",
+ eT:"Nothing checked yet",eB:"Pick an example or paste a message, then press Check message.",risk:"risk",high:"Likely a scam",mid:"Looks suspicious",low:"Looks safe",hS:"Do not reply, share codes or click links.",mS:"Be careful before you reply or pay.",lS:"We found no common scam signs.",why:"Why we think so",none:"No warning signs found.",nx:"What to do",hN:"Do not share any code or PIN. Block the sender and report it to FIA on 1991 or to your bank's official helpline.",mN:"Verify with the company using a number you already trust before you act.",lN:"Still, never share your PIN or OTP with anyone.",yours:"The message",fileNote:"File analysis needs your backend connected. Wire the upload to your analysis API."},
+rn:{tag:"Scam message checker",h1:"Paison ke bare mein ajeeb message aaya? Pehle yahan check karein.",lead:"SMS ya WhatsApp message paste karein, voice note upload karein, ya screenshot lagayein. Hum batayenge ke scam lagta hai ya nahi, aur aage kya karna hai.",tText:"Message ka text",tVoice:"Voice note",tShot:"Screenshot",ph:"Message yahan paste karein",dVoice:"Voice note chunein",dShot:"Screenshot chunein",dHint:"Phone ya computer se file chunne ke liye tap karein",check:"Message check karein",clear:"Saaf karein",try:"Ya koi misaal try karein",h1a:"Aap ke likhne ka andaaz samajhta hai",p1a:"English aur Roman Urdu dono parhta hai, mix messages bhi.",h2a:"Dikhata hai kya ghalat hai",p2a:"Shak wale alfaaz highlight karta hai, saaf wajah ke saath.",h3a:"Batata hai ke kya karna hai",p3a:"Saaf hidayat, aur Pakistan mein kahan report karna hai.",foot:"MuhafizAI rehnumai deta hai, guarantee nahi. Shak ho to bank ko uske official number par call karein.",
+ eT:"Abhi kuch check nahi hua",eB:"Misaal chunein ya message paste karein, phir Message check karein dabayein.",risk:"khatra",high:"Ghaliban scam hai",mid:"Mashkook lagta hai",low:"Mehfooz lagta hai",hS:"Jawab na dein, code share na karein, link par click na karein.",mS:"Jawab dene ya payment se pehle ehtiyat karein.",lS:"Koi aam scam nishani nahi mili.",why:"Hum aisa kyun samajhte hain",none:"Koi khatre ki nishani nahi mili.",nx:"Ab kya karein",hN:"Koi code ya PIN share na karein. Sender ko block karein aur FIA 1991 ya bank ki official helpline par report karein.",mN:"Kuch karne se pehle company ko apne bharose ke number par call karke tasdeeq karein.",lN:"Phir bhi, apna PIN ya OTP kisi ko na batayein.",yours:"Message",fileNote:"File analysis ke liye backend connect karna hoga."},
+ur:{tag:"اسکیم میسج چیکر",h1:"پیسوں کے بارے میں عجیب میسج آیا؟ پہلے یہاں چیک کریں۔",lead:"ایس ایم ایس یا واٹس ایپ میسج پیسٹ کریں، وائس نوٹ اپلوڈ کریں یا اسکرین شاٹ لگائیں۔ ہم بتائیں گے کہ یہ اسکیم لگتا ہے یا نہیں اور آگے کیا کرنا ہے۔",tText:"میسج کا متن",tVoice:"وائس نوٹ",tShot:"اسکرین شاٹ",ph:"میسج یہاں پیسٹ کریں",dVoice:"وائس نوٹ منتخب کریں",dShot:"اسکرین شاٹ منتخب کریں",dHint:"فائل منتخب کرنے کے لیے ٹیپ کریں",check:"میسج چیک کریں",clear:"صاف کریں",try:"یا کوئی مثال آزمائیں",h1a:"آپ کے لکھنے کا انداز سمجھتا ہے",p1a:"انگریزی اور رومن اردو دونوں پڑھتا ہے۔",h2a:"دکھاتا ہے کیا غلط ہے",p2a:"شک والے الفاظ نمایاں کرتا ہے۔",h3a:"بتاتا ہے کیا کرنا ہے",p3a:"واضح ہدایات اور پاکستان میں رپورٹ کرنے کی جگہ۔",foot:"مُحافظ اے آئی رہنمائی دیتا ہے، ضمانت نہیں۔ شک ہو تو بینک کو اس کے سرکاری نمبر پر کال کریں۔",
+ eT:"ابھی کچھ چیک نہیں ہوا",eB:"مثال منتخب کریں یا میسج پیسٹ کریں، پھر میسج چیک کریں دبائیں۔",risk:"خطرہ",high:"غالباً اسکیم ہے",mid:"مشکوک لگتا ہے",low:"محفوظ لگتا ہے",hS:"جواب نہ دیں، کوڈ شیئر نہ کریں، لنک پر کلک نہ کریں۔",mS:"جواب یا ادائیگی سے پہلے احتیاط کریں۔",lS:"کوئی عام اسکیم کی نشانی نہیں ملی۔",why:"ہم ایسا کیوں سمجھتے ہیں",none:"خطرے کی کوئی نشانی نہیں ملی۔",nx:"اب کیا کریں",hN:"کوئی کوڈ یا پن شیئر نہ کریں۔ بھیجنے والے کو بلاک کریں اور ایف آئی اے 1991 پر رپورٹ کریں۔",mN:"کچھ کرنے سے پہلے کمپنی کو اپنے معتبر نمبر پر کال کر کے تصدیق کریں۔",lN:"پھر بھی اپنا پن یا او ٹی پی کسی کو نہ بتائیں۔",yours:"میسج",fileNote:"فائل کے تجزیے کے لیے بیک اینڈ جوڑنا ہوگا۔"}};
+const RULES=[
+{w:45,re:/otp|\bpin\b|cvv|password|code\s+bata\w*|4-digit/gi,t:{en:["Asks for a secret code","Real banks and wallets never ask you to read out an OTP or PIN."],rn:["Secret code maanga ja raha hai","Asli bank ya wallet kabhi OTP ya PIN nahi mangta."],ur:["خفیہ کوڈ مانگا جا رہا ہے","اصل بینک یا والٹ کبھی او ٹی پی یا پن نہیں مانگتا۔"]}},
+{w:30,re:/registration fee|fee\s+bhej\w*|processing fee|advance|rupay\s+nikla\w*|\d+\s*hazar/gi,t:{en:["Asks you to pay first","Benazir Income Support payments never need a fee to be sent."],rn:["Pehle paise bhejne ko kaha ja raha hai","BISP ki rakam ke liye koi fee nahi hoti."],ur:["پہلے پیسے بھیجنے کو کہا جا رہا ہے","بی آئی ایس پی کی رقم کے لیے کوئی فیس نہیں ہوتی۔"]}},
+{w:25,re:/https?:\/\/\S+|www\.\S+/gi,t:{en:["Contains a suspicious link","Bank links should come from the official app or website only."],rn:["Shak wala link maujood hai","Bank ke link sirf official app ya website se aate hain."],ur:["مشکوک لنک موجود ہے","بینک کے لنک صرف سرکاری ایپ یا ویب سائٹ سے آتے ہیں۔"]}},
+{w:20,re:/abhi|immediately|urgent|foran|block\s+hone|suspended|band\s+ho\w*|warna|fine/gi,t:{en:["Creates false urgency","Scammers push you to act before you can think or ask someone."],rn:["Jaldi ka dabao daal raha hai","Scammer chahte hain ke aap soche baghair amal karein."],ur:["جلدی کا دباؤ ڈال رہا ہے","اسکیمر چاہتے ہیں کہ آپ سوچے بغیر عمل کریں۔"]}},
+{w:10,re:/head office|jazzcash|easypaisa|\bhbl\b|bisp|\bsbp\b|\bfia\b/gi,t:{en:["Pretends to be a trusted name","The sender uses a known brand to gain your trust."],rn:["Mashhoor naam istemal kar raha hai","Bharosa jeetne ke liye jaana pehchana naam use kiya gaya."],ur:["معروف نام استعمال کر رہا ہے","اعتماد جیتنے کے لیے جانا پہچانا نام استعمال کیا گیا۔"]}}
+];
+const SAMPLES=[
+{n:{en:"OTP request",rn:"OTP ki darkhwast",ur:"او ٹی پی کی درخواست"},x:"Asalam o Alaikum sir main JazzCash head office se bol raha hoon, aapka account block hone wala hai. Abhi 4-digit OTP code batayein warna 50,000 fine hoga."},
+{n:{en:"Benazir support offer",rn:"BISP ka paigham",ur:"بی آئی ایس پی کا پیغام"},x:"Mubarak ho! BISP mein 25 hazar rupay nikla hai, 1500 registration fee bhejein aur claim karein."},
+{n:{en:"Bank link",rn:"Bank ka link",ur:"بینک کا لنک"},x:"HBL ATM card suspended. Update biometric immediately: http://hbl-verify-pk-secure.com"},
+{n:{en:"Genuine Raast message",rn:"Asli Raast message",ur:"اصل راست میسج"},x:"8558: You have received Rs. 4,500.00 from ALI RAZA via Raast ID. New Balance: 18,240."}
+];
+let lang="en",tab="text",last=null;
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function applyLang(){
+  document.documentElement.lang=lang==="ur"?"ur":"en";document.documentElement.dir=lang==="ur"?"rtl":"ltr";
+  document.body.classList.toggle("ur",lang==="ur");
+  $$("[data-t]").forEach(e=>e.textContent=T[lang][e.dataset.t]);
+  $$("[data-ph]").forEach(e=>e.placeholder=T[lang][e.dataset.ph]);
+  $$("[data-lang]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.lang===lang));
+  $("#samples").innerHTML=SAMPLES.map((s,i)=>`<button class="sample" data-i="${i}"><b>${s.n[lang]}</b><small dir="ltr">${esc(s.x)}</small></button>`).join("");
+  render();
+}
+function analyse(text){
+  let score=0,hits=[],ranges=[];
+  RULES.forEach(r=>{const m=[...text.matchAll(r.re)];if(m.length){score+=r.w;hits.push(r);m.forEach(x=>ranges.push([x.index,x.index+x[0].length]))}});
+  if(/raast|new balance|you have received/i.test(text)&&score<30)score=Math.max(0,score-20);
+  score=Math.min(98,Math.max(score,text.trim()?4:0));
+  ranges.sort((a,b)=>a[0]-b[0]);
+  let out="",pos=0;
+  ranges.forEach(([s,e])=>{if(s<pos)return;out+=esc(text.slice(pos,s))+"<mark>"+esc(text.slice(s,e))+"</mark>";pos=e});
+  out+=esc(text.slice(pos));
+  return{score,hits,html:out,text};
+}
+function render(){
+  const t=T[lang],box=$("#result");
+  if(!last){box.innerHTML=`<div class="empty"><b>${t.eT}</b>${t.eB}</div>`;return}
+  if(last.note){box.innerHTML=`<div class="empty"><b>${last.note.name}</b>${t.fileNote}</div>`;return}
+  const s=last.score,lv=s>=60?"high":s>=30?"mid":"low",C=2*Math.PI*49;
+  const sub=lv==="high"?t.hS:lv==="mid"?t.mS:t.lS,nx=lv==="high"?t.hN:lv==="mid"?t.mN:t.lN;
+  const flags=last.hits.length?last.hits.map(h=>`<li><b>${h.t[lang][0]}</b><span>${h.t[lang][1]}</span></li>`).join(""):`<li><span>${t.none}</span></li>`;
+  box.innerHTML=`<div class="${lv}"><div class="verdict"><div class="gauge"><svg viewBox="0 0 112 112"><circle class="track" cx="56" cy="56" r="49"/><circle class="fill" cx="56" cy="56" r="49" stroke-dasharray="${C}" stroke-dashoffset="${C}" id="arc"/></svg><div>${s}%</div></div>
+  <div><span class="badge">${t[lv]}</span><h3>${sub}</h3></div></div>
+  <h2>${t.yours}</h2><div class="msg" dir="ltr">${last.html}</div>
+  <h2>${t.why}</h2><ul class="flags">${flags}</ul>
+  <div class="next"><b>${t.nx}.</b> ${nx}</div></div>`;
+  requestAnimationFrame(()=>{const a=$("#arc");if(a)a.style.strokeDashoffset=C*(1-s/100)});
+}
+function run(){
+  if(tab!=="text"){const f=$$("[data-file]")[tab==="voice"?0:1].files[0];last=f?{note:{name:f.name}}:null;render();return}
+  const v=$("#input").value;last=v.trim()?analyse(v):null;render();
+}
+$$("[data-lang]").forEach(b=>b.onclick=()=>{lang=b.dataset.lang;applyLang()});
+$$("[data-tab]").forEach(b=>b.onclick=()=>{tab=b.dataset.tab;
+  $$("[data-tab]").forEach(x=>x.setAttribute("aria-selected",x===b));
+  $("#pText").hidden=tab!=="text";$("#pVoice").hidden=tab!=="voice";$("#pShot").hidden=tab!=="shot"});
+$$("[data-file]").forEach((f,i)=>f.onchange=()=>{$(i?"#fnShot":"#fnVoice").textContent=f.files[0]?f.files[0].name:""});
+$("#samples").onclick=e=>{const b=e.target.closest(".sample");if(!b)return;
+  $$("[data-tab]")[0].click();$("#input").value=SAMPLES[b.dataset.i].x;run()};
+$("#check").onclick=run;
+$("#clear").onclick=()=>{$("#input").value="";last=null;render()};
+applyLang();
+</script>
+</body>
+</html>

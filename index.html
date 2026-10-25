@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>MuhafizAI — Bilingual Financial Scam & Voice-Note Detector</title>
+  <meta name="description"
+    content="AI threat detection for WhatsApp, Voice-Notes, Easypaisa, JazzCash, BISP, and Bank OTP scams in English and Roman Urdu.">
+
+  <!-- Google Fonts: Figtree (Primary), JetBrains Mono (Telemetry), Noto Nastaliq Urdu (Urdu) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Nastaliq+Urdu:wght@400;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <div class="wrap">
+    <!-- TOP HEADER -->
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3l8 3v6c0 4.5-3.2 7.6-8 9-4.8-1.4-8-4.5-8-9V6l8-3z" />
+            <path d="M8.5 12l2.5 2.5 4.5-5" />
+          </svg>
+        </div>
+        <div class="brand-text">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <b>MuhafizAI</b>
+            <span
+              style="font-family:'JetBrains Mono',monospace; font-size:11px; padding:2px 6px; border-radius:6px; background:var(--brand-soft); color:var(--brand); font-weight:700;">v1.0
+              Engine</span>
+          </div>
+          <span id="appTagline">Bilingual Financial Scam & Voice-Note Detector</span>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <!-- Live Radar Status -->
+        <div class="radar-chip">
+          <span class="radar-dot"></span>
+          <span id="radarStatusText">Threat Radar: Active</span>
+        </div>
+
+        <!-- Language Toggle Switcher -->
+        <div class="seg" role="group" aria-label="Language">
+          <button id="langEn" class="active" aria-pressed="true">English</button>
+          <button id="langRoman" aria-pressed="false">Roman Urdu</button>
+          <button id="langUr" aria-pressed="false" style="font-family:'Noto Nastaliq Urdu',serif;">اردو</button>
+        </div>
+
+        <!-- Theme Switcher (Light / Dark) -->
+        <div class="seg" role="group" aria-label="Theme">
+          <button id="themeAuto" class="active" title="System Theme">Auto</button>
+          <button id="themeDark" title="Dark Obsidian Theme">Dark</button>
+          <button id="themeLight" title="Clean Light Theme">Light</button>
+        </div>
+
+        <!-- Emergency Helpline Badge -->
+        <a href="tel:1991"
+          style="display:inline-flex; align-items:center; gap:6px; text-decoration:none; font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; color:var(--danger); background:var(--danger-soft); border:1px solid var(--danger-border); padding:6px 12px; border-radius:10px;"
+          title="FIA NR3C Cyber Crime Helpdesk">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path
+              d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+          </svg>
+          <span>FIA: 1991</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <div class="hero-pill">
+        <span>🛡️</span>
+        <span id="heroBannerTag">Specialized for Pakistani Mobile Wallets & Banking</span>
+      </div>
+      <h1 id="heroTitle">Got a strange message about money? Check it here first.</h1>
+      <p class="lead" id="heroSubtitle">Paste an SMS or WhatsApp message, upload a voice note, or drop a screenshot. We
+        instantly tell you if it looks like a scam and what to do next.</p>
+    </section>
+
+    <!-- QUICK DEMO SCENARIOS BAR ("Or try an example") -->
+    <section class="demo-section">
+      <div class="demo-title">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+        </svg>
+        <span id="demoScenariosLabel">Or try a live example (Click to test):</span>
+      </div>
+      <div class="samples-grid">
+        <!-- Sample 1: OTP Scam -->
+        <button class="sample-card" id="btnSample1">
+          <div>
+            <span class="sample-tag critical">🔴 OTP SCAM</span>
+            <b id="s1Title">Roman Urdu OTP Request</b>
+            <small id="s1Desc">"JazzCash head office se bol raha hoon, account block hone wala hai. 4-digit OTP
+              batayein..."</small>
+          </div>
+          <span style="font-size:11px; color:var(--brand); font-weight:700; margin-top:8px;">Test Sample 1 →</span>
+        </button>
+
+        <!-- Sample 2: BISP Voice Note -->
+        <button class="sample-card" id="btnSample2">
+          <div>
+            <span class="sample-tag critical">🔴 VOICE NOTE (14s)</span>
+            <b id="s2Title">Fake BISP Lottery Call</b>
+            <small id="s2Desc">"Mubarak ho! BISP mein 25 hazar rupay nikla hai, 1500 registration fee
+              bhejein..."</small>
+          </div>
+          <span style="font-size:11px; color:var(--brand); font-weight:700; margin-top:8px;">Test Sample 2 →</span>
+        </button>
+
+        <!-- Sample 3: Phishing Link -->
+        <button class="sample-card" id="btnSample3">
+          <div>
+            <span class="sample-tag warn">🟡 PHISHING LINK</span>
+            <b id="s3Title">Fake Bank Biometric Alert</b>
+            <small id="s3Desc">"HBL ATM card suspended. Update biometric immediately at
+              http://hbl-verify-pk-login.com"</small>
+          </div>
+          <span style="font-size:11px; color:var(--brand); font-weight:700; margin-top:8px;">Test Sample 3 →</span>
+        </button>
+
+        <!-- Sample 4: Safe Raast Transfer -->
+        <button class="sample-card" id="btnSample4">
+          <div>
+            <span class="sample-tag ok">🟢 SAFE RAAST SMS</span>
+            <b id="s4Title">Genuine SBP Transfer</b>
+            <small id="s4Desc">"8558: You have received Rs. 4,500.00 from ALI RAZA via Raast ID. New Balance:
+              18,240."</small>
+          </div>
+          <span style="font-size:11px; color:var(--brand); font-weight:700; margin-top:8px;">Test Sample 4 →</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- MAIN INTERACTIVE WORKSPACE (2-COLUMN GRID) -->
+    <main class="workspace-grid">
+
+      <!-- LEFT COLUMN: MULTI-MODAL INPUT HUB -->
+      <section class="card" aria-label="Scam Threat Checker">
+
+        <!-- Tab Headers -->
+        <div class="tabs" role="tablist">
+          <button id="tabBtnText" class="active" role="tab" aria-selected="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+            </svg>
+            <span id="tabLabelText">Message text</span>
+          </button>
+          <button id="tabBtnVoice" role="tab" aria-selected="false">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z" />
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+              <line x1="12" y1="19" x2="12" y2="23" />
+              <line x1="8" y1="23" x2="16" y2="23" />
+            </svg>
+            <span id="tabLabelVoice">Voice note</span>
+          </button>
+          <button id="tabBtnOcr" role="tab" aria-selected="false">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+              <circle cx="8.5" cy="8.5" r="1.5" />
+              <polyline points="21 15 16 10 5 21" />
+            </svg>
+            <span id="tabLabelOcr">Screenshot</span>
+          </button>
+        </div>
+
+        <!-- TAB 1: MESSAGE TEXT -->
+        <div id="panelText">
+          <textarea id="threatTextInput"
+            placeholder="Paste the SMS, WhatsApp message, or suspect link here..."></textarea>
+          <div class="telemetry-row">
+            <div>
+              <span>Script: </span>
+              <strong id="detectedScriptVal" style="color:var(--brand)">Roman Urdu / English</strong>
+            </div>
+            <div>
+              <span>Characters: </span>
+              <strong id="charCountVal">0</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: VOICE NOTE SCANNER -->
+        <div id="panelVoice" style="display:none;">
+          <div class="waveform-box">
+            <canvas id="waveformCanvas"></canvas>
+            <div
+              style="position:absolute; top:8px; left:12px; font-size:11px; font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--brand); display:flex; align-items:center; gap:6px;">
+              <span class="radar-dot" style="width:6px; height:6px;"></span>
+              <span id="audioStatusText">Acoustic Engine Ready</span>
+            </div>
+            <div id="audioTimeDisplay"
+              style="position:absolute; top:8px; right:12px; font-size:11px; font-family:'JetBrains Mono',monospace; color:var(--muted);">
+              00:00 / 00:14
+            </div>
+          </div>
+
+          <div class="audio-controls">
+            <button id="btnToggleAudioPlay" class="ghost-btn"
+              style="border:1px solid var(--line); border-radius:10px; display:inline-flex; align-items:center; gap:6px;">
+              <svg id="audioPlayIconSvg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="5 3 19 12 5 21 5 3" />
+              </svg>
+              <span id="audioPlayText">Play Sample Audio</span>
+            </button>
+            <button id="btnRecordVoice" class="ghost-btn"
+              style="border:1px solid var(--danger-border); color:var(--danger); background:var(--danger-soft); border-radius:10px; display:inline-flex; align-items:center; gap:6px;">
+              <span style="width:8px; height:8px; border-radius:50%; background:var(--danger);"></span>
+              <span id="recordVoiceText">Record Live Voice Note</span>
+            </button>
+          </div>
+
+          <label class="dropzone">
+            <input type="file" id="voiceFileInput" accept="audio/*">
+            <strong id="dVoiceText">Choose or Drop an Audio File</strong>
+            <span id="dVoiceSub">Supports .mp3, .wav, .ogg, .m4a (Tap to browse)</span>
+          </label>
+
+          <div
+            style="margin-top:14px; padding:12px 14px; border-radius:12px; background:var(--bg); border:1px solid var(--line);">
+            <div
+              style="font-size:12px; font-weight:700; color:var(--brand); margin-bottom:4px; display:flex; justify-content:space-between;">
+              <span id="voiceTranscriptTitle">Transcribed Speech (Roman Urdu):</span>
+              <span style="color:var(--ok); font-family:'JetBrains Mono',monospace;">98% Fidelity</span>
+            </div>
+            <p id="voiceTranscriptDisplay"
+              style="margin:0; font-size:14px; font-style:italic; line-height:1.6; color:var(--ink);">
+              "Mubarak ho! Aapka Benazir Income Support mein 25 hazar rupay nikla hai, abhi is number par 1500 rupay
+              registration fee bhejein..."
+            </p>
+          </div>
+        </div>
+
+        <!-- TAB 3: SCREENSHOT OCR SCANNER -->
+        <div id="panelOcr" style="display:none;">
+          <div class="ocr-box">
+            <div id="ocrPreviewContainer"
+              style="width:100%; height:100%; display:flex; align-items:center; justify-content:center;">
+              <!-- Loaded dynamically with SVG preview -->
+            </div>
+            <div id="ocrLaserBar" class="ocr-laser-line" style="display:none;"></div>
+          </div>
+
+          <div class="ocr-presets">
+            <button id="btnPresetReceipt" class="ocr-preset-btn">📄 Sample Fake Easypaisa Slip</button>
+            <button id="btnPresetChat" class="ocr-preset-btn">💬 Sample WhatsApp Chat</button>
+          </div>
+
+          <label class="dropzone" style="min-height:100px; padding:16px;">
+            <input type="file" id="ocrImageInput" accept="image/*">
+            <strong>Drop payment slip or chat screenshot</strong>
+            <span>Upload custom image to trigger optical scanning</span>
+          </label>
+
+          <div
+            style="margin-top:14px; padding:12px 14px; border-radius:12px; background:var(--bg); border:1px solid var(--line);">
+            <div style="font-size:12px; font-weight:700; color:var(--brand); margin-bottom:4px;">
+              <span>Extracted OCR Text:</span>
+            </div>
+            <p id="ocrExtractedDisplay"
+              style="margin:0; font-size:13px; font-family:'JetBrains Mono',monospace; line-height:1.6; color:var(--ink);">
+              Easypaisa Transfer Successful! Transferred PKR 50,000.00 to account 0301-8729104. TxID: EP-9821481. Note:
+              Amount will be credited after 1500 PKR tax verification fee is paid to agent.
+            </p>
+          </div>
+        </div>
+
+        <!-- PRIMARY ACTION BUTTONS -->
+        <div class="actions">
+          <button class="primary-btn" id="check">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+            <span id="checkBtnText">Check Message</span>
+          </button>
+          <button class="ghost-btn" id="btnPasteClipboard" title="Paste from clipboard">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+            </svg>
+            <span id="pasteBtnText">Paste</span>
+          </button>
+          <button class="ghost-btn" id="clear">
+            <span id="clearBtnText">Clear</span>
+          </button>
+        </div>
+
+        <!-- SCANNING LOADER ANIMATION (1.5s multi-step scan) -->
+        <div id="scanLoader" class="scan-loader" style="display:none;">
+          <div
+            style="display:flex; justify-content:space-between; font-size:12px; font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--brand);">
+            <span id="scanStatusTitle">Analyzing Threat Pipeline...</span>
+            <span id="scanStepNumber">Step 1 of 3</span>
+          </div>
+          <div class="scan-bar-bg">
+            <div id="scanBarFill" class="scan-bar-fill"></div>
+          </div>
+          <div class="scan-step active" id="scanStep1">
+            <span>✓</span> <span id="scanStep1Text">Transcribing & acoustic tone analysis...</span>
+          </div>
+          <div class="scan-step" id="scanStep2">
+            <span>○</span> <span id="scanStep2Text">Evaluating Roman Urdu coercion patterns...</span>
+          </div>
+          <div class="scan-step" id="scanStep3">
+            <span>○</span> <span id="scanStep3Text">Cross-checking fake shortcodes & fraud databases...</span>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- RIGHT COLUMN: REAL-TIME THREAT INTELLIGENCE DASHBOARD -->
+      <section class="card result-card" id="resultContainer" aria-live="polite">
+
+        <!-- EMPTY STATE (Default before check) -->
+        <div id="emptyResultView" class="empty-state">
+          <div class="empty-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+          </div>
+          <b id="emptyTitle">Nothing checked yet</b>
+          <p id="emptyBody" style="margin:0; font-size:15px; color:var(--muted); max-width:40ch; margin:0 auto;">
+            Pick an example above or paste a message, then press Check message.
+          </p>
+        </div>
+
+        <!-- ACTIVE ANALYSIS DASHBOARD VIEW -->
+        <div id="activeResultView" style="display:none;">
+
+          <!-- Verdict Header with Radial Gauge -->
+          <div class="verdict-header">
+            <div class="gauge-wrap">
+              <svg viewBox="0 0 112 112">
+                <circle class="gauge-track" cx="56" cy="56" r="49" />
+                <circle class="gauge-fill" id="gaugeArc" cx="56" cy="56" r="49" stroke-dasharray="307.87"
+                  stroke-dashoffset="307.87" />
+              </svg>
+              <div class="gauge-val" id="gaugeScoreNumber">98%</div>
+            </div>
+
+            <div class="verdict-info">
+              <span class="verdict-badge" id="verdictBadge">Likely a scam</span>
+              <h3 class="verdict-title" id="verdictTitle">Do not reply, share codes or click links.</h3>
+              <p class="verdict-sub" id="verdictCategory">OTP Harvesting & Authority Impersonation</p>
+              <div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--muted); margin-top:4px;">
+                <span>AI Confidence: <strong id="valConfidence" style="color:var(--brand)">99.4%</strong></span>
+                <span> • </span>
+                <span>Latency: <strong id="valLatency">142ms</strong></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Highlighted Message Box -->
+          <h2 class="section-subtitle" id="yourMessageLabel">The message with flagged triggers</h2>
+          <div class="analyzed-msg" id="analyzedMsgBox" dir="ltr">
+            <!-- Dynamically populated with <mark> tags -->
+          </div>
+
+          <!-- Audio Timeline Flagging (Conditionally displayed for voice notes / Sample 2) -->
+          <div id="voiceTimelineContainer" style="display:none; margin:16px 0;">
+            <div
+              style="display:flex; justify-content:space-between; font-size:12px; font-weight:700; color:var(--muted); text-transform:uppercase;">
+              <span id="timelineTitleLabel">Audio Timeline Threat Markers</span>
+              <span id="scrubTimeReadout" style="color:var(--brand); font-family:'JetBrains Mono',monospace;">00:00 /
+                00:14</span>
+            </div>
+
+            <div class="timeline-track-wrap" id="timelineTrack" title="Click to scrub audio">
+              <div class="timeline-fill" id="timelineProgressFill" style="width:0%;"></div>
+              <div class="timeline-playhead-bar" id="timelinePlayhead" style="left:0%;"></div>
+
+              <div class="timeline-pill" style="left:14%; width:22%;">0:02 Impersonation</div>
+              <div class="timeline-pill"
+                style="left:42%; width:22%; background:var(--warn-soft); color:var(--warn); border-color:var(--warn-border);">
+                0:06 Fake Prize</div>
+              <div class="timeline-pill" style="left:71%; width:26%;">0:10 Fee Extortion</div>
+            </div>
+          </div>
+
+          <!-- "Why we think so" Flags List -->
+          <h2 class="section-subtitle" id="whyWeThinkSoLabel">Why we think so</h2>
+          <ul class="flags-list" id="flagsList">
+            <!-- Populated dynamically -->
+          </ul>
+
+          <!-- "What to do" Next Steps Card -->
+          <div class="next-card" id="nextActionCard">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+              <span style="font-size:18px;">⚠️</span>
+              <b id="nextCardHeading">What to do:</b>
+            </div>
+            <p id="nextCardText" style="margin:0; font-size:14px; line-height:1.55;">
+              Do not share any code or PIN. Block the sender and report it to FIA on 1991 or to your bank's official
+              helpline.
+            </p>
+
+            <div class="action-row">
+              <!-- Web Speech API TTS Warning -->
+              <button class="action-pill-btn" id="btnPlayTTS">
+                <svg id="ttsIconSvg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
+                </svg>
+                <span id="ttsBtnText">Play Audio Warning (TTS)</span>
+              </button>
+
+              <!-- FIA NR3C Formal Report Modal -->
+              <button class="action-pill-btn" id="btnOpenFiaModal">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                  <polyline points="14 2 14 8 20 8" />
+                  <line x1="16" y1="13" x2="8" y2="13" />
+                  <line x1="16" y1="17" x2="8" y2="17" />
+                  <polyline points="10 9 9 9 8 9" />
+                </svg>
+                <span id="fiaBtnText">Generate FIA Report</span>
+              </button>
+
+              <!-- Share Alert on WhatsApp -->
+              <button class="action-pill-btn" id="btnShareWhatsApp">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="18" cy="5" r="3" />
+                  <circle cx="6" cy="12" r="3" />
+                  <circle cx="18" cy="19" r="3" />
+                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                  <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+                </svg>
+                <span id="waBtnText">Share Alert on WhatsApp</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- TRUST & HOW IT WORKS SECTION (Value Props) -->
+    <section class="how-section">
+      <div class="how-item">
+        <div class="how-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+          </svg>
+        </div>
+        <h4 id="how1Title">Understands how people write</h4>
+        <p id="how1Desc">Reads English and Roman Urdu naturally, including informal phrasing, colloquialisms, and
+          code-mixed messages.</p>
+      </div>
+
+      <div class="how-item">
+        <div class="how-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+        </div>
+        <h4 id="how2Title">Shows what looks wrong</h4>
+        <p id="how2Desc">Highlights the exact words and phrases that raise concern, providing clear and plain reasons
+          for each flag.</p>
+      </div>
+
+      <div class="how-item">
+        <div class="how-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>
+        </div>
+        <h4 id="how3Title">Tells you what to do</h4>
+        <p id="how3Desc">Gives concrete, actionable guidance on protecting your money, plus direct escalation routes to
+          FIA Cybercrime (1991).</p>
+      </div>
+    </section>
+
+    <!-- LIVE COMMUNITY SCAM RADAR SECTION -->
+    <section class="community-section">
+      <!-- 3 Metrics Cards -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-label">
+            <span id="metric1Label">Scams Blocked Today</span>
+            <span style="font-size:11px; color:var(--ok); font-family:'JetBrains Mono',monospace;">+18% Today</span>
+          </div>
+          <div class="metric-val" id="metricBlockedCount">1,428</div>
+          <div class="metric-desc">Intercepted across Easypaisa, JazzCash & SMS gateways.</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">
+            <span id="metric2Label">Top Active Threat Vector</span>
+            <span style="font-size:11px; color:var(--danger); font-family:'JetBrains Mono',monospace;">42% Share</span>
+          </div>
+          <div class="metric-val" style="font-size:22px; color:var(--danger);" id="metricTopScam">Fake BISP / Wallet OTP
+          </div>
+          <div class="metric-desc">Organized impersonation targeting mobile wallet holders.</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">
+            <span id="metric3Label">Estimated Money Protected</span>
+            <span style="font-size:11px; color:var(--brand); font-family:'JetBrains Mono',monospace;">Community
+              Shield</span>
+          </div>
+          <div class="metric-val" style="color:var(--ok);" id="metricMoneySaved">PKR 4.2M+</div>
+          <div class="metric-desc">Calculated based on verified intercepted transfer requests.</div>
+        </div>
+      </div>
+
+      <!-- Live Community Feed Table -->
+      <div class="feed-container">
+        <div class="feed-header">
+          <div>
+            <h3 style="margin:0; font-size:18px; font-weight:800; display:flex; align-items:center; gap:8px;">
+              <span class="radar-dot" style="display:inline-block;"></span>
+              <span id="radarFeedTitle">Live Pakistani Community Scam Radar</span>
+            </h3>
+            <p style="margin:4px 0 0; font-size:13px; color:var(--muted);" id="radarFeedSub">
+              Real-time anonymized fraud alerts intercepted across cities (Karachi, Lahore, Islamabad, Rawalpindi,
+              Attock)
+            </p>
+          </div>
+
+          <button class="primary-btn" id="btnOpenReportModal" style="padding:8px 16px; font-size:13px;">
+            <span id="reportScamBtnText">+ Report New Threat</span>
+          </button>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="feed-filter-bar">
+          <div class="seg" role="group">
+            <button class="filter-tab active" data-filter="all">All Alerts</button>
+            <button class="filter-tab" data-filter="wallet">Mobile Wallets</button>
+            <button class="filter-tab" data-filter="otp">OTP & PIN Theft</button>
+            <button class="filter-tab" data-filter="phishing">Phishing Links</button>
+          </div>
+
+          <input type="text" id="communitySearchInput" placeholder="Filter by city, phrase..."
+            style="border:1px solid var(--line); background:var(--bg); color:var(--ink); border-radius:10px; padding:7px 12px; font-size:13px; outline:none; max-width:220px;">
+        </div>
+
+        <!-- Feed Table -->
+        <div style="overflow-x:auto;">
+          <table class="feed-table">
+            <thead>
+              <tr>
+                <th>Location & ID</th>
+                <th>Threat Category</th>
+                <th>Reported Snippet</th>
+                <th>Time</th>
+                <th style="text-align:right;">Radar Status</th>
+              </tr>
+            </thead>
+            <tbody id="communityFeedTbody">
+              <!-- Dynamically populated from js/community-data.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <span id="footerDisclaimer">MuhafizAI gives automated guidance, not a legal guarantee. When in doubt, call your
+        bank on its verified helpline.</span>
+      <div style="display:flex; gap:16px; font-family:'JetBrains Mono',monospace; font-size:13px;">
+        <span>FIA Cybercrime: <strong>1991</strong></span>
+        <span>•</span>
+        <span>PTA Consumer: <strong>0800-55055</strong></span>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- MODAL 1: FIA CYBERCRIME DOSSIER -->
+  <div id="fiaModal" class="modal-overlay" style="display:none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <h3 id="modalFiaTitle">FIA NR3C Cybercrime Digital Evidence Dossier</h3>
+          <p style="margin:2px 0 0; font-size:12px; color:var(--muted);">Formulated pursuant to Prevention of Electronic
+            Crimes Act (PECA 2016)</p>
+        </div>
+        <button class="modal-close" id="btnCloseFiaModal">✕</button>
+      </div>
+
+      <div
+        style="display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; margin-bottom:14px; font-family:'JetBrains Mono',monospace; font-size:12px;">
+        <div style="padding:8px 10px; border-radius:8px; background:var(--bg); border:1px solid var(--line);">
+          <span style="color:var(--muted); font-size:10px; display:block;">CASE REFERENCE</span>
+          <b id="dossierCaseId" style="color:var(--brand)">FIA-2026-98124</b>
+        </div>
+        <div style="padding:8px 10px; border-radius:8px; background:var(--bg); border:1px solid var(--line);">
+          <span style="color:var(--muted); font-size:10px; display:block;">STATUTE VIOLATION</span>
+          <b style="color:var(--danger)">PECA Sec. 13 & 14</b>
+        </div>
+        <div style="padding:8px 10px; border-radius:8px; background:var(--bg); border:1px solid var(--line);">
+          <span style="color:var(--muted); font-size:10px; display:block;">SHA-256 DIGEST</span>
+          <b id="dossierHash"
+            style="color:var(--ink); font-size:11px; overflow:hidden; text-overflow:ellipsis; display:block;">a78f...4e91</b>
+        </div>
+      </div>
+
+      <textarea id="fiaDossierText" rows="10" readonly
+        style="font-family:'JetBrains Mono',monospace; font-size:12px; line-height:1.6;"></textarea>
+
+      <div
+        style="display:flex; justify-content:space-between; align-items:center; margin-top:14px; flex-wrap:wrap; gap:10px;">
+        <span style="font-size:12px; color:var(--muted); font-family:'JetBrains Mono',monospace;">Submit to:
+          helpdesk@nr3c.gov.pk</span>
+        <div style="display:flex; gap:8px;">
+          <button class="primary-btn" id="btnCopyDossier" style="padding:8px 14px; font-size:13px;">
+            <span id="copyDossierText">Copy Dossier</span>
+          </button>
+          <button class="ghost-btn" id="btnDownloadDossier"
+            style="border:1px solid var(--line); border-radius:10px; padding:8px 14px; font-size:13px;">
+            Download .txt
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: REPORT THREAT MODAL -->
+  <div id="reportModal" class="modal-overlay" style="display:none;">
+    <div class="modal-content" style="max-width:500px;">
+      <div class="modal-header">
+        <h3>Report Threat to Community Radar</h3>
+        <button class="modal-close" id="btnCloseReportModal">✕</button>
+      </div>
+
+      <form id="reportThreatForm" style="display:grid; gap:12px; font-size:14px;">
+        <div>
+          <label style="display:block; font-weight:600; margin-bottom:4px; color:var(--muted);">City / District:</label>
+          <select id="reportCity"
+            style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--line); background:var(--bg); color:var(--ink); font:inherit;">
+            <option value="Karachi">Karachi</option>
+            <option value="Lahore">Lahore</option>
+            <option value="Islamabad">Islamabad</option>
+            <option value="Rawalpindi">Rawalpindi</option>
+            <option value="Attock">Attock</option>
+            <option value="Faisalabad">Faisalabad</option>
+            <option value="Peshawar">Peshawar</option>
+            <option value="Multan">Multan</option>
+            <option value="Quetta">Quetta</option>
+          </select>
+        </div>
+
+        <div>
+          <label style="display:block; font-weight:600; margin-bottom:4px; color:var(--muted);">Scam Type:</label>
+          <select id="reportType"
+            style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--line); background:var(--bg); color:var(--ink); font:inherit;">
+            <option value="wallet">Mobile Wallet Fraud (Easypaisa / JazzCash)</option>
+            <option value="otp">OTP / PIN Credential Theft</option>
+            <option value="phishing">Phishing Link / Website</option>
+          </select>
+        </div>
+
+        <div>
+          <label style="display:block; font-weight:600; margin-bottom:4px; color:var(--muted);">Offender Phone Number or
+            Fake Link:</label>
+          <input type="text" id="reportOffender" placeholder="e.g. 0304-xxxxxxx or fake link" required
+            style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--line); background:var(--bg); color:var(--ink); font:inherit;">
+        </div>
+
+        <div>
+          <label style="display:block; font-weight:600; margin-bottom:4px; color:var(--muted);">Message / Call
+            Description:</label>
+          <textarea id="reportSnippet" rows="3" placeholder="Briefly describe what the caller or message claimed..."
+            required style="min-height:80px;"></textarea>
+        </div>
+
+        <button type="submit" class="primary-btn" style="width:100%; justify-content:center; margin-top:8px;">
+          Submit to Live Community Radar
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="js/translations.js"></script>
+  <script src="js/analyzer.js"></script>
+  <script src="js/audio-engine.js"></script>
+  <script src="js/ocr-engine.js"></script>
+  <script src="js/community-data.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+
+</html>
